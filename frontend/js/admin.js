@@ -1023,3 +1023,34 @@ function showAdminToast(text, iconClass) {
     }
   }, 5000);
 }
+
+// ---------- RESPONSIVE SIDEBAR LOGIC ----------
+function toggleAdminSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar) {
+    sidebar.classList.toggle('active');
+  }
+}
+
+document.addEventListener('click', (e) => {
+  const sidebar = document.getElementById('sidebar');
+  const toggleBtn = document.getElementById('adminHamburgerBtn');
+  if (sidebar && sidebar.classList.contains('active')) {
+    if (!sidebar.contains(e.target) && (!toggleBtn || !toggleBtn.contains(e.target))) {
+      sidebar.classList.remove('active');
+    }
+  }
+});
+
+// Close sidebar on click of any sidebar navigation link (mobile only)
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      if (sidebar && window.innerWidth <= 768) {
+        sidebar.classList.remove('active');
+      }
+    });
+  });
+});
+
