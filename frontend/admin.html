@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURELIA | Designer Atelier Portal</title>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Admin Custom Styles -->
+  <link rel="stylesheet" href="./css/admin.css">
+</head>
+<body>
+
+  <!-- ==========================================
+       AUTHENTICATION OVERLAY
+       ========================================== -->
+  <div class="auth-overlay" id="authOverlay">
+    <div class="auth-card">
+      <h2>AURELIA ATELIER</h2>
+      <p>Secure Management Citadel Access</p>
+      
+      <form class="auth-form" id="adminLoginForm">
+        <input type="text" class="auth-input" id="authUsername" placeholder="Access Identity (bantikr11)" required autocomplete="off">
+        <input type="password" class="auth-input" id="authPassword" placeholder="Passphrase (banti@123)" required>
+        <button type="submit" class="auth-btn">Authorize Entry</button>
+      </form>
+      
+      <div style="margin-top: 1.5rem; font-size: 0.75rem; color: var(--admin-text-muted);">
+        💡 Premium demo shortcut: Enter <strong>bantikr11</strong> and <strong>banti@123</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       SIDEBAR NAVIGATION
+       ========================================== -->
+  <aside class="admin-sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">AURELIA<span>.</span></div>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li class="menu-label">Main Matrix</li>
+      <li class="menu-item">
+        <button class="menu-link active" data-view="dashboardView">
+          <i class="fa-solid fa-chart-pie"></i> Revenue Dashboard
+        </button>
+      </li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="ordersView" id="linkOrdersMenu">
+          <i class="fa-solid fa-satellite-dish"></i> Live Orders
+        </button>
+      </li>
+      
+      <li class="menu-label" style="margin-top: 1.5rem;">Inventory Control</li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="productsView">
+          <i class="fa-solid fa-boxes-stacked"></i> Products Suite
+        </button>
+      </li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="inventoryView">
+          <i class="fa-solid fa-warehouse"></i> Inventory Stock
+        </button>
+      </li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="categoriesView">
+          <i class="fa-solid fa-tags"></i> Categories
+        </button>
+      </li>
+
+      <li class="menu-label" style="margin-top: 1.5rem;">Relations & Growth</li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="customersView">
+          <i class="fa-solid fa-users"></i> Clientèle Base
+        </button>
+      </li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="promoView">
+          <i class="fa-solid fa-ticket"></i> Coupons & Banners
+        </button>
+      </li>
+
+      <li class="menu-label" style="margin-top: 1.5rem;">Citadel Config</li>
+      <li class="menu-item">
+        <button class="menu-link" data-view="settingsView">
+          <i class="fa-solid fa-sliders"></i> Store Settings
+        </button>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <div class="admin-user">
+        <div class="admin-avatar"><i class="fa-solid fa-crown"></i></div>
+        <div class="admin-info">
+          <h5 id="loggedInAdminName">Aurelia Chief</h5>
+          <span>Secure Channel</span>
+        </div>
+      </div>
+      <button onclick="logoutAdmin()" title="Lock Vault" style="color: var(--admin-text-muted);"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </aside>
+
+  <!-- ==========================================
+       DASHBOARD CORE CONTENT AREA
+       ========================================== -->
+  <main class="admin-main">
+    
+    <header class="top-bar">
+      <div class="top-left">
+        <h1 class="page-title" id="topPageTitle">Revenue Dashboard</h1>
+        <div class="live-badge" title="SSE Connection Monitoring Engine Active">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--admin-gold);"></span>
+          Live Stream
+        </div>
+      </div>
+
+      <div class="top-right">
+        <button class="icon-btn" onclick="toggleTheme()" title="Switch Ambient Theme Mode">
+          <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
+        <a href="/" target="_blank" class="icon-btn" title="View Storefront Frontend">
+          <i class="fa-solid fa-store"></i>
+        </a>
+      </div>
+    </header>
+
+    <div class="content-area">
+      
+      <!-- ==========================================
+           VIEW 1: REVENUE DASHBOARD & SALES STATS
+           ========================================== -->
+      <div class="admin-view active" id="dashboardView">
+        
+        <!-- Analytics Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header"><span>Vault Revenue</span><i class="fa-solid fa-coins"></i></div>
+            <div class="stat-value" id="dashTotalRevenue">$0</div>
+            <div class="stat-footer"><span>▲ 12.4%</span> over previous fiscal cycle</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header"><span>Orders Acquired</span><i class="fa-solid fa-bag-shopping"></i></div>
+            <div class="stat-value" id="dashTotalOrders">0</div>
+            <div class="stat-footer"><span style="color: #2196F3;">● Active stream processing</span></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header"><span>Catalog Pieces</span><i class="fa-solid fa-gem"></i></div>
+            <div class="stat-value" id="dashTotalProducts">0</div>
+            <div class="stat-footer"><span>Premium items indexed</span></div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header"><span>Client Accounts</span><i class="fa-solid fa-users"></i></div>
+            <div class="stat-value" id="dashTotalCustomers">0</div>
+            <div class="stat-footer"><span>Verified buyers profile</span></div>
+          </div>
+        </div>
+
+        <!-- Charts and Custom Visual Metrics -->
+        <div class="charts-grid">
+          <div class="chart-card">
+            <div class="chart-title">
+              <span>Dynamic Sales Category Matrix</span>
+              <span style="font-size: 0.75rem; color: var(--admin-gold); font-weight: 400;">Real-time Volume Calculation</span>
+            </div>
+            
+            <div class="css-chart-wrapper" id="categoryChartContainer">
+              <!-- Dynamically populated CSS multi-bars representing categories -->
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height: 60%;" data-val="6 items"></div>
+                <span class="chart-label">Rings</span>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height: 85%;" data-val="12 items"></div>
+                <span class="chart-label">Necklaces</span>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height: 40%;" data-val="4 items"></div>
+                <span class="chart-label">Earrings</span>
+              </div>
+              <div class="chart-bar-group">
+                <div class="chart-bar" style="height: 70%;" data-val="8 items"></div>
+                <span class="chart-label">Bracelets</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-title"><span>Fulfillment Status</span></div>
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; justify-content: center; height: 220px;">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                  <span style="color: #F57C00;">Pending Review</span>
+                  <span id="progPendingCount" style="font-weight: 700;">0</span>
+                </div>
+                <div style="width: 100%; height: 6px; background: var(--admin-surface-light); border-radius: 3px; overflow: hidden;">
+                  <div id="progPendingBar" style="width: 20%; height: 100%; background: #F57C00;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 0.25rem;">
+                  <span style="color: #4CAF50;">Delivered Assets</span>
+                  <span id="progDeliveredCount" style="font-weight: 700;">0</span>
+                </div>
+                <div style="width: 100%; height: 6px; background: var(--admin-surface-light); border-radius: 3px; overflow: hidden;">
+                  <div id="progDeliveredBar" style="width: 80%; height: 100%; background: #4CAF50;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent live orders snapshot -->
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size: 1rem;">Recent Dispatch Queue</h3>
+            <button class="btn-admin-secondary" onclick="switchView('ordersView')">View Full Protocol</button>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order Citation</th>
+                  <th>Client</th>
+                  <th>Settlement</th>
+                  <th>Status</th>
+                  <th>Vault Total</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersTbody">
+                <tr><td colspan="5" style="text-align: center; color: var(--admin-text-muted);">Monitoring Live Event Input...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ==========================================
+           VIEW 2: LIVE ORDER MANAGEMENT SYSTEM
+           ========================================== -->
+      <div class="admin-view" id="ordersView">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size: 1rem;">Citadel Real-Time Orders Tracker</h3>
+            <span style="font-size: 0.8rem; color: var(--admin-gold);"><i class="fa-solid fa-satellite-dish"></i> Fully synchronized</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Citation ID</th>
+                  <th>Customer Information</th>
+                  <th>Summary Items</th>
+                  <th>Total</th>
+                  <th>Fulfillment Status</th>
+                  <th>Actions Suite</th>
+                </tr>
+              </thead>
+              <tbody id="allOrdersTbody">
+                <tr><td colspan="6" style="text-align: center; color: var(--admin-text-muted);">Loading secure orders history...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           VIEW 3: PRODUCTS SUITE CONTROL
+           ========================================== -->
+      <div class="admin-view" id="productsView">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size: 1rem;">Catalog Pieces Architecture</h3>
+            <button class="btn-admin" onclick="openProductModal()"><i class="fa-solid fa-plus"></i> Add New Masterpiece</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Showcase Asset</th>
+                  <th>Nomenclature</th>
+                  <th>Silhouette Category</th>
+                  <th>Value</th>
+                  <th>Flags</th>
+                  <th>Management Protocol</th>
+                </tr>
+              </thead>
+              <tbody id="productsTbody">
+                <tr><td colspan="6" style="text-align: center;">Loading catalog architecture...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           VIEW 4: INVENTORY MANAGEMENT
+           ========================================== -->
+      <div class="admin-view" id="inventoryView">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size: 1rem;">Live Inventory Stock Multipliers</h3>
+            <p style="font-size: 0.8rem; color: var(--admin-text-muted);">Direct instant balance parameters allocation</p>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Asset Target</th>
+                  <th>Category</th>
+                  <th>Unit Pricing</th>
+                  <th>Available Quantities</th>
+                  <th>Update Action</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTbody">
+                <tr><td colspan="5" style="text-align: center;">Loading allocations...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           VIEW 5: MANAGE CATEGORIES
+           ========================================== -->
+      <div class="admin-view" id="categoriesView">
+        <div class="table-card" style="max-width: 800px;">
+          <div class="table-header">
+            <h3 style="font-size: 1rem;">Signature Silhouettes Listing</h3>
+            <button class="btn-admin" onclick="openCategoryModal()"><i class="fa-solid fa-plus"></i> Allocate Silhouette</button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Representative Asset</th>
+                  <th>Category Title</th>
+                  <th>Revocation Action</th>
+                </tr>
+              </thead>
+              <tbody id="categoriesTbody">
+                <tr><td colspan="3" style="text-align: center;">Loading silhouettes...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           VIEW 6: CLIENTÈLE BASE (MANAGE CUSTOMERS)
+           ========================================== -->
+      <div class="admin-view" id="customersView">
+        <div class="table-card">
+          <div class="table-header">
+            <h3 style="font-size: 1rem;">Verified High-Fashion Accounts</h3>
+          </div>
+
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Customer Profile</th>
+                  <th>Encrypted E-Mail</th>
+                  <th>Total Dispatched Value</th>
+                  <th>Orders Execution Count</th>
+                  <th>First Logged Date</th>
+                </tr>
+              </thead>
+              <tbody id="customersTbody">
+                <tr><td colspan="5" style="text-align: center;">Loading profile records...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           VIEW 7: COUPONS & BANNERS CONTROL
+           ========================================== -->
+      <div class="admin-view" id="promoView">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;">
+          
+          <!-- Coupons Panel -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size: 1rem;">Privilege Coupon Codes</h3>
+              <button class="btn-admin" onclick="openCouponModal()"><i class="fa-solid fa-plus"></i> Issue Code</button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Privilege Code</th>
+                    <th>Multiplier Allocation</th>
+                    <th>Remove</th>
+                  </tr>
+                </thead>
+                <tbody id="couponsTbody">
+                  <tr><td colspan="3" style="text-align: center;">Loading parameters...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Banner Management Panel -->
+          <div class="table-card">
+            <div class="table-header">
+              <h3 style="font-size: 1rem;">Hero Banner Activation</h3>
+              <button class="btn-admin" onclick="openBannerModal()"><i class="fa-solid fa-plus"></i> Set Display</button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Showcase Render</th>
+                    <th>Headline Assignment</th>
+                    <th>Remove</th>
+                  </tr>
+                </thead>
+                <tbody id="bannersTbody">
+                  <tr><td colspan="3" style="text-align: center;">Loading showcases...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ==========================================
+           VIEW 8: WEBSITE SETTINGS CONTROL
+           ========================================== -->
+      <div class="admin-view" id="settingsView">
+        <div class="table-card" style="max-width: 700px; padding: 2.5rem;">
+          <h3 style="font-family: var(--font-serif); color: var(--admin-gold); font-size: 1.25rem; margin-bottom: 2rem; border-bottom: 1px solid var(--admin-border); padding-bottom: 1rem;">Citadel Operational Thresholds</h3>
+          
+          <form id="settingsForm" onsubmit="saveWebsiteSettings(event)">
+            <div class="admin-form-group">
+              <label>Website Brand Token</label>
+              <input type="text" class="admin-form-control" id="setSiteName" required>
+            </div>
+            <div class="admin-form-group">
+              <label>Concierge Notification Address</label>
+              <input type="email" class="admin-form-control" id="setContactEmail" required>
+            </div>
+            <div class="admin-form-group">
+              <label>Atelier Contact Authority Line</label>
+              <input type="text" class="admin-form-control" id="setContactPhone" required>
+            </div>
+            <div class="admin-form-group">
+              <label>Complimentary Shipment Threshold Limit ($)</label>
+              <input type="number" class="admin-form-control" id="setFreeShipping" required>
+            </div>
+
+            <button type="submit" class="btn-admin" style="width: 100%; margin-top: 1rem;">
+              Enforce Global Config Parameters
+            </button>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================
+       MODALS WRAPPERS FOR ADD / EDIT LOGIC
+       ========================================== -->
+
+  <!-- Product Management Modal -->
+  <div class="admin-modal" id="productModal">
+    <div class="admin-modal-content" onclick="event.stopPropagation();">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title" id="productModalTitle">Add New Masterpiece</h3>
+        <button onclick="closeProductModal()"><i class="fa-solid fa-xmark" style="font-size: 1.25rem;"></i></button>
+      </div>
+
+      <form id="productSubmitForm" onsubmit="saveProduct(event)">
+        <input type="hidden" id="modalProdId">
+        
+        <div class="admin-form-group">
+          <label>Piece Nomenclature</label>
+          <input type="text" class="admin-form-control" id="modalProdName" required>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="admin-form-group">
+            <label>Silhouette Category</label>
+            <select class="admin-form-control" id="modalProdCat" required>
+              <option value="Necklaces">Necklaces</option>
+              <option value="Rings">Rings</option>
+              <option value="Earrings">Earrings</option>
+              <option value="Bracelets">Bracelets</option>
+              <option value="Chains">Chains</option>
+              <option value="Jhumka">Jhumka</option>
+            </select>
+          </div>
+          <div class="admin-form-group">
+            <label>Pricing Value ($)</label>
+            <input type="number" class="admin-form-control" id="modalProdPrice" required>
+          </div>
+          <div class="admin-form-group">
+            <label>Stock Availability Quantifier</label>
+            <input type="number" class="admin-form-control" id="modalProdStock" value="10" required>
+          </div>
+        </div>
+
+        <div class="admin-form-group">
+          <label>Original Crossout Valuation ($) [Optional]</label>
+          <input type="number" class="admin-form-control" id="modalProdOrigPrice">
+        </div>
+
+        <div class="admin-form-group">
+          <label>Image Render Path or Direct Showcase Upload</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" class="admin-form-control" id="modalProdImg" placeholder="/images/luxury_gold_necklace.png" required style="flex: 1;">
+            <input type="file" id="modalImageUpload" style="display: none;" accept="image/*" onchange="uploadProductImageDirect(event)">
+            <button type="button" class="btn-admin-secondary" onclick="document.getElementById('modalImageUpload').click()">Upload File</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+            <input type="checkbox" id="modalProdNew"> Archive as New Arrival
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; cursor: pointer;">
+            <input type="checkbox" id="modalProdBest"> Designate Best Seller
+          </label>
+        </div>
+
+        <div class="admin-form-group">
+          <label>Editorial Description Specification</label>
+          <textarea class="admin-form-control" id="modalProdDesc" rows="3" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-admin" style="width: 100%;">Commit Product Parameters</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Category Modal -->
+  <div class="admin-modal" id="categoryModal">
+    <div class="admin-modal-content" onclick="event.stopPropagation();">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Allocate New Silhouette Category</h3>
+        <button onclick="closeCategoryModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveCategory(event)">
+        <div class="admin-form-group">
+          <label>Category Title</label>
+          <input type="text" class="admin-form-control" id="modalCatName" required>
+        </div>
+        <div class="admin-form-group">
+          <label>Image Render Source Path</label>
+          <input type="text" class="admin-form-control" id="modalCatImg" placeholder="/images/luxury_gold_earrings.png" required>
+        </div>
+        <button type="submit" class="btn-admin" style="width: 100%;">Create Category</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Coupon Modal -->
+  <div class="admin-modal" id="couponModal">
+    <div class="admin-modal-content" onclick="event.stopPropagation();">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Issue Privilege Coupon Code</h3>
+        <button onclick="closeCouponModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveCoupon(event)">
+        <div class="admin-form-group">
+          <label>Unique Alphabetic Token</label>
+          <input type="text" class="admin-form-control" id="modalCouponCode" placeholder="VIP30" required style="text-transform: uppercase;">
+        </div>
+        <div class="admin-form-group">
+          <label>Deduction Percentage Multiplier (%)</label>
+          <input type="number" class="admin-form-control" id="modalCouponPercent" min="1" max="99" required>
+        </div>
+        <button type="submit" class="btn-admin" style="width: 100%;">Activate Privilege Code</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Banner Modal -->
+  <div class="admin-modal" id="bannerModal">
+    <div class="admin-modal-content" onclick="event.stopPropagation();">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Configure Showcase Banner</h3>
+        <button onclick="closeBannerModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form onsubmit="saveBanner(event)">
+        <div class="admin-form-group">
+          <label>Editorial Main Headline</label>
+          <input type="text" class="admin-form-control" id="modalBannerTitle" placeholder="L’Éternité Collection" required>
+        </div>
+        <div class="admin-form-group">
+          <label>Subheadline Trait</label>
+          <input type="text" class="admin-form-control" id="modalBannerSubtitle" required>
+        </div>
+        <div class="admin-form-group">
+          <label>Background Asset Source</label>
+          <input type="text" class="admin-form-control" id="modalBannerImg" placeholder="/images/luxury_gold_necklace.png" required>
+        </div>
+        <button type="submit" class="btn-admin" style="width: 100%;">Enforce Banner Placement</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Customer Detail Info Panel / Invoice Printable Modal -->
+  <div class="admin-modal" id="orderDetailModal">
+    <div class="admin-modal-content" style="max-width: 800px; padding: 0;" onclick="event.stopPropagation();">
+      <div style="padding: 1.5rem 2.5rem; background: var(--admin-surface-light); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--admin-border);">
+        <h3 style="font-family: var(--font-serif); color: var(--admin-gold);">Order Dissection Suite</h3>
+        <div style="display: flex; gap: 1rem;">
+          <button class="btn-admin-secondary" onclick="printInvoice()"><i class="fa-solid fa-print"></i> Generate Invoice</button>
+          <button onclick="closeOrderDetailModal()"><i class="fa-solid fa-xmark" style="font-size: 1.5rem;"></i></button>
+        </div>
+      </div>
+      
+      <div style="padding: 2.5rem;" id="orderDetailPrintableArea">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem; border-bottom: 1px solid var(--admin-border); padding-bottom: 1.5rem;">
+          <div>
+            <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--admin-text); letter-spacing: 0.1em;">AURELIA ATELIER</h2>
+            <p style="font-size: 0.75rem; color: var(--admin-text-muted);">High-Fashion Editorial Fine Jewelry Fulfillment</p>
+          </div>
+          <div style="text-align: right;">
+            <h4 style="color: var(--admin-gold);" id="detOrderId">AURELIA-1001</h4>
+            <span class="status-badge status-pending" id="detStatusBadge" style="margin-top: 0.25rem;">Pending</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; font-size: 0.85rem;">
+          <div>
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">Recipient Identity</span>
+            <strong id="detName" style="font-size: 1rem; color: var(--admin-text);">Countess Anastasia</strong>
+            <p id="detEmail" style="color: var(--admin-text-muted);">client@domain.com</p>
+            <p id="detPhone" style="color: var(--admin-text-muted);">+1 555-0199</p>
+          </div>
+          <div>
+            <span style="font-size: 0.7rem; color: var(--admin-text-muted); text-transform: uppercase; display: block; margin-bottom: 0.25rem;">Secure Transit Hub</span>
+            <p id="detAddress" style="color: var(--admin-text);">Penthouse floor lines layout...</p>
+          </div>
+        </div>
+
+        <h4 style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--admin-text-muted); text-transform: uppercase; letter-spacing: 0.05em;">Acquired Asset Allocation</h4>
+        <table class="admin-table" style="margin-bottom: 2rem;">
+          <thead>
+            <tr>
+              <th>Asset Name</th>
+              <th>Unit Allocation</th>
+              <th style="text-align: right;">Sum Vault Total</th>
+            </tr>
+          </thead>
+          <tbody id="detItemsTbody">
+            <!-- Dynamically injected -->
+          </tbody>
+        </table>
+
+        <div style="text-align: right; border-top: 1px solid var(--admin-border); padding-top: 1rem;">
+          <span style="font-size: 0.8rem; color: var(--admin-text-muted); text-transform: uppercase;">Final Cleared Authorization</span>
+          <h2 style="font-size: 1.85rem; color: var(--admin-gold); font-family: var(--font-serif);" id="detTotalAmount">$0</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Printable Container overlay trigger -->
+  <div id="printWrapper" style="display: none;"></div>
+
+  <!-- Real-time Notifications Drawer Container -->
+  <div class="admin-toast-wrapper" id="adminToastContainer"></div>
+
+  <!-- Core Dashboard Administration Logic Script -->
+  <script src="./js/admin.js"></script>
+</body>
+</html>

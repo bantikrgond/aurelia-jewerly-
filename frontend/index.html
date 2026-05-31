@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURELIA | High-End Premium Jewelry & Fine Atelier</title>
+  <meta name="description": "Discover AURELIA fine jewelry. Minimalist and luxury editorial aesthetic fashion accessories including premium rings, golden chains, elegant royal jhumka, drop earrings, and signature pendants.">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Luxury CSS -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Premium Glassmorphism Header -->
+  <header class="header" id="mainHeader">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo">AURELIA<span>.</span></a>
+      
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#" class="nav-link active" data-scroll="home">Home</a></li>
+        <li><a href="#categoriesSection" class="nav-link" data-scroll="categoriesSection">Collections</a></li>
+        <li><a href="#productsSection" class="nav-link" data-scroll="productsSection">New Arrivals</a></li>
+        <li><a href="#reviewsSection" class="nav-link" data-scroll="reviewsSection">Journal & Proof</a></li>
+
+      </ul>
+
+      <div class="nav-actions">
+        <button class="action-btn" id="btnOpenAuth" title="Client Login">
+          <i class="fa-regular fa-user"></i>
+        </button>
+        <button class="action-btn" id="btnOpenWishlist" title="View Wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="badge" id="wishlistCountBadge">0</span>
+        </button>
+        <button class="action-btn" id="btnOpenCart" title="View My Order">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="badge" id="cartCountBadge">0</span>
+        </button>
+        <button class="hamburger" id="btnHamburger" aria-label="Toggle Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Banner Section -->
+    <section class="hero" id="home">
+      <img src="/images/luxury_gold_necklace.png" alt="High-End luxury gold diamond necklace banner showcase" class="hero-bg" id="heroBgImg">
+      <div class="hero-overlay"></div>
+      
+      <div class="container">
+        <div class="hero-content">
+          <span class="hero-tag" id="heroSubtitle">L’Éternité Collection</span>
+          <h1 class="hero-title" id="heroTitle">Pure <span>Elegance</span> Crafted For You</h1>
+          <p class="hero-desc" id="heroDesc">Uncompromising luxury and minimalist perfection design lines inspired by heritage high-fashion houses.</p>
+          <div class="hero-buttons">
+            <a href="#productsSection" class="btn-primary" id="heroCtaBtn">Explore Pieces <i class="fa-solid fa-arrow-right-long"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop By Category Section -->
+    <section class="categories-section" id="categoriesSection">
+      <div class="container">
+        <div class="section-title">
+          <h2>Curated Categories</h2>
+          <p>Explore By Signature Silhouettes</p>
+        </div>
+
+        <div class="categories-grid" id="categoriesGridContainer">
+          <!-- Dynamically populated from backend / seed data -->
+          <div class="category-card placeholder-loading">
+            <div class="category-thumb"><img src="/images/luxury_gold_earrings.png" alt="Earrings"></div>
+            <span class="category-name">Earrings</span>
+          </div>
+          <div class="category-card placeholder-loading">
+            <div class="category-thumb"><img src="/images/luxury_gold_necklace.png" alt="Necklaces"></div>
+            <span class="category-name">Necklaces</span>
+          </div>
+          <div class="category-card placeholder-loading">
+            <div class="category-thumb"><img src="/images/luxury_diamond_ring.png" alt="Rings"></div>
+            <span class="category-name">Rings</span>
+          </div>
+          <div class="category-card placeholder-loading">
+            <div class="category-thumb"><img src="/images/luxury_gold_bracelet.png" alt="Bracelets"></div>
+            <span class="category-name">Bracelets</span>
+          </div>
+          <div class="category-card placeholder-loading">
+            <div class="category-thumb"><img src="/images/luxury_gold_chain.png" alt="Chains"></div>
+            <span class="category-name">Chains</span>
+          </div>
+          <div class="category-card placeholder-loading">
+            <div class="category-thumb"><img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&w=600&q=80" alt="Jhumka"></div>
+            <span class="category-name">Jhumka</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Grid Section -->
+    <section class="products-section" id="productsSection">
+      <div class="container">
+        <div class="section-title">
+          <h2>Exceptional Masterpieces</h2>
+          <p>Hand-Finished Minimalist Luxuries</p>
+        </div>
+
+        <div class="filter-tabs" id="productFilterTabs">
+          <button class="filter-tab active" data-filter="All">All Showcase</button>
+          <button class="filter-tab" data-filter="New Arrivals">New Arrivals</button>
+          <button class="filter-tab" data-filter="Best Sellers">Best Sellers</button>
+          <button class="filter-tab" data-filter="Necklaces">Necklaces</button>
+          <button class="filter-tab" data-filter="Rings">Rings</button>
+          <button class="filter-tab" data-filter="Earrings">Earrings</button>
+          <button class="filter-tab" data-filter="Bracelets">Bracelets</button>
+        </div>
+
+        <div class="product-grid" id="productGridContainer">
+          <!-- Dynamically populated via Main JS -->
+          <p style="grid-column: span 4; text-align: center; padding: 4rem 0; color: #888;">Loading High-Fashion Masterpieces...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof / Reviews Section -->
+    <section class="reviews-section" id="reviewsSection">
+      <div class="container">
+        <div class="section-title">
+          <h2>Clientèle Testimonials</h2>
+          <p>The Voice Of Uncompromised Standard</p>
+        </div>
+
+        <!-- Google Ratings Summary Card -->
+        <div class="google-rating">
+          <i class="fa-brands fa-google google-icon"></i>
+          <div>
+            <div class="google-stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <p class="google-rating-text">4.9 / 5.0 Rating based on over 420+ Certified Google Client Reviews</p>
+          </div>
+        </div>
+
+        <!-- Elegant Testimonials Slider Grid -->
+        <div class="testimonials-slider">
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"The Aurelia Solitaire Pendant exceeded every expectation. Stunning minimal architecture line and beautiful gift unboxing sequence. Worth every cent."</p>
+            <div class="review-author">
+              <div class="author-avatar">E</div>
+              <div class="author-info">
+                <h4>Eleanor Vance</h4>
+                <span>Verified Client • Paris</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"Absolutely breathtaking clarity on the engagement ring. The support concierge guided me through custom size adjustment with ultimate patience."</p>
+            <div class="review-author">
+              <div class="author-avatar">M</div>
+              <div class="author-info">
+                <h4>Marcus Sterling</h4>
+                <span>Verified Client • New York</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-card">
+            <div class="review-stars">★★★★★</div>
+            <p class="review-text">"I ordered the drop pearls for an exclusive gala. Shipped perfectly inside premium rigid storage cases. Received compliments all evening."</p>
+            <div class="review-author">
+              <div class="author-avatar">S</div>
+              <div class="author-info">
+                <h4>Sophia Lorenzi</h4>
+                <span>Verified Client • Milan</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Badges Section -->
+    <section class="trust-section">
+      <div class="container">
+        <div class="trust-grid">
+          <div class="trust-card">
+            <i class="fa-solid fa-truck-fast trust-icon"></i>
+            <div class="trust-content">
+              <h4>Complimentary Shipping</h4>
+              <p>Fully insured express premium transit on all atelier pieces worldwide.</p>
+            </div>
+          </div>
+
+          <div class="trust-card">
+            <i class="fa-solid fa-headset trust-icon"></i>
+            <div class="trust-content">
+              <h4>24/7 Atelier Support</h4>
+              <p>Personal jewelry concierge advisors available at your seamless service.</p>
+            </div>
+          </div>
+
+          <div class="trust-card">
+            <i class="fa-solid fa-shield-halved trust-icon"></i>
+            <div class="trust-content">
+              <h4>Secure Encrypted Vault</h4>
+              <p>Bank-grade encryption processing guarantees ultimate payment tranquility.</p>
+            </div>
+          </div>
+
+          <div class="trust-card">
+            <i class="fa-solid fa-gem trust-icon"></i>
+            <div class="trust-content">
+              <h4>Ethically Traceable</h4>
+              <p>Conflict-free brilliant assets sourced exclusively from sustainable origins.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Premium Footer Section -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="#" class="brand-logo" style="color: #fff;">AURELIA<span style="color: var(--color-gold);">.</span></a>
+          <p class="footer-desc">Reimagining timeless luxury aesthetics for the minimal modern visionary. Designed with uncompromising integrity and editorial precision.</p>
+          <div class="social-icons">
+            <a href="#" class="social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-icon" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+            <a href="#" class="social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="social-icon" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h3>Atelier Links</h3>
+          <ul class="footer-links">
+            <li><a href="#categoriesSection">Collections</a></li>
+            <li><a href="#productsSection">Bespoke Catalog</a></li>
+            <li><a href="#reviewsSection">Journal & Heritage</a></li>
+            <li><a href="#">Bridal Suite</a></li>
+            <li><a href="#">Size Guidance</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Client Services</h3>
+          <ul class="footer-links">
+            <li><a href="#">Contact Advisor</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Refund & Returns</a></li>
+            <li><a href="#">Privacy Agreement</a></li>
+            <li><a href="#">Secure Care Guides</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>The Inner Circle</h3>
+          <p class="footer-desc" style="margin-top: 0; margin-bottom: 1rem;">Subscribe to secure preview access to unannounced fine pieces and custom VIP allocations.</p>
+          <form class="newsletter-form" id="newsletterForm" onsubmit="event.preventDefault(); alert('✨ You have joined the prestigious Aurelia Inner Circle.');">
+            <div class="input-group">
+              <input type="email" placeholder="Enter secure address..." required>
+              <button type="submit">Join</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 AURELIA Fine Jewelry Atelier. All worldwide intellectual property protected.</p>
+        <p>Crafted with High-Fashion Cinematic Code for Elite Visionaries.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       MODALS & SLIDE DRAWERS
+       ========================================== -->
+
+  <!-- Quick View Modal Overlay -->
+  <div class="modal-overlay" id="quickViewOverlay">
+    <div class="quickview-modal" onclick="event.stopPropagation();">
+      <button class="modal-close" id="btnCloseQuickView"><i class="fa-solid fa-xmark"></i></button>
+      <div class="quickview-img">
+        <img src="/images/luxury_gold_necklace.png" id="quickViewImg" alt="Quick view presentation">
+      </div>
+      <div class="quickview-details">
+        <span class="product-cat" id="quickViewCat">Necklaces</span>
+        <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem;" id="quickViewTitle">Aurelia Solitaire Pendant</h3>
+        <div class="product-price" style="justify-content: flex-start; font-size: 1.35rem;" id="quickViewPriceContainer">
+          <span id="quickViewPrice">$1850</span>
+          <span class="original" id="quickViewOrigPrice">$2100</span>
+        </div>
+        <p style="color: var(--color-text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;" id="quickViewDesc">Detailed layout specification summary rendered cleanly.</p>
+        
+        <div class="qty-selector">
+          <span style="font-weight: 600; font-size: 0.85rem; text-transform: uppercase;">Allocation:</span>
+          <div class="qty-controls">
+            <button class="qty-btn" id="btnQtyMinus"><i class="fa-solid fa-minus"></i></button>
+            <input type="number" class="qty-input" id="inputQty" value="1" min="1" max="10" readonly>
+            <button class="qty-btn" id="btnQtyPlus"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="width: 100%;" id="btnQuickViewAddToCart">
+          <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shopping Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3><i class="fa-solid fa-bag-shopping"></i> My Order (<span id="cartDrawerItemCount">0</span>)</h3>
+      <button class="action-btn" id="btnCloseCartDrawer"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="cart-body" id="cartDrawerBody">
+      <div class="cart-empty">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <p>Your beautiful atelier bag is completely empty.</p>
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <div class="coupon-section">
+        <input type="text" placeholder="Privilege Code (e.g. LUXURY20)" id="inputCouponCode">
+        <button id="btnApplyCoupon">Apply</button>
+      </div>
+
+      <div class="cart-summary-line">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">$0</span>
+      </div>
+      <div class="cart-summary-line" style="color: #2E7D32; display: none;" id="discountLine">
+        <span>Privilege Discount</span>
+        <span id="cartDiscountAmount">-$0</span>
+      </div>
+      <div class="cart-summary-line" style="font-size: 1.25rem; color: var(--color-gold); border-top: 1px solid var(--color-border); padding-top: 0.75rem;">
+        <span>Estimated Vault Total</span>
+        <span id="cartTotal">$0</span>
+      </div>
+
+      <button class="btn-primary" style="width: 100%; margin-top: 1rem;" id="btnProceedToCheckout">
+        Proceed To Secure Vault <i class="fa-solid fa-shield-halved"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Checkout Secure Vault Modal -->
+  <div class="modal-overlay" id="checkoutOverlay">
+    <div class="checkout-modal" onclick="event.stopPropagation();">
+      <button class="modal-close" id="btnCloseCheckout"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div id="checkoutStepForm">
+        <div class="section-title" style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.75rem;">Secure Vault Dispatch</h2>
+          <p>Encrypted Delivery Execution</p>
+        </div>
+
+        <form id="checkoutSubmitForm">
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label>Full Recipient Name</label>
+              <input type="text" id="chkName" placeholder="e.g. Countess Anastasia" required>
+            </div>
+            <div class="form-group">
+              <label>Encrypted Email</label>
+              <input type="email" id="chkEmail" placeholder="client@domain.com" required>
+            </div>
+            <div class="form-group">
+              <label>Secure Contact Number</label>
+              <input type="tel" id="chkPhone" placeholder="+1 (555) 019-9234" required>
+            </div>
+            <div class="form-group full-width">
+              <label>Delivery Citadel Address</label>
+              <textarea id="chkAddress" rows="3" placeholder="Penthouse Floor, 742 High Fashion Avenue..." required></textarea>
+            </div>
+            
+            <!-- Payment Details Section -->
+            <div class="form-group full-width" style="margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border);">
+              <h3 style="font-size: 1.1rem; margin-bottom: 1rem; font-family: var(--font-serif); display: flex; align-items: center; gap: 0.5rem;">
+                <i class="fa-regular fa-credit-card"></i> Secure Payment Details
+              </h3>
+              <div class="form-grid" style="margin: 0; gap: 1rem;">
+                <div class="form-group full-width">
+                  <label>Card Number</label>
+                  <input type="text" id="chkCard" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                </div>
+                <div class="form-group">
+                  <label>Expiry Date</label>
+                  <input type="text" id="chkExpiry" placeholder="MM/YY" maxlength="5" required>
+                </div>
+                <div class="form-group">
+                  <label>Security Code (CVC)</label>
+                  <input type="password" id="chkCvc" placeholder="•••" maxlength="4" required>
+                </div>
+              </div>
+            </div>
+
+          <button type="submit" class="btn-primary" style="width: 100%;">
+            Confirm Premium Order Placement <i class="fa-solid fa-gem"></i>
+          </button>
+        </form>
+      </div>
+
+      <!-- Confirmation Step Panel -->
+      <div id="checkoutStepSuccess" style="display: none;">
+        <div class="confirmation-card">
+          <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+          <h3 style="font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--color-gold);">Acquisition Complete</h3>
+          <p style="color: var(--color-text-muted); margin-bottom: 1.5rem;">Your high-fashion asset has been successfully transmitted and is being prepared for dispatch.</p>
+          
+          <div style="background: var(--color-bg); padding: 1.5rem; border: 1px solid var(--color-border); border-radius: 2px; text-align: left; margin-bottom: 2rem;">
+            <p style="font-size: 0.85rem; margin-bottom: 0.35rem;"><strong>Order Citation:</strong> <span id="confOrderId" style="color: var(--color-gold);">AURELIA-1001</span></p>
+            <p style="font-size: 0.85rem; margin-bottom: 0.35rem;"><strong>Secure Courier:</strong> Premium Escort Insured Dispatch</p>
+            <p style="font-size: 0.85rem;"><strong>Status Check:</strong> Live tracking available via email confirmation</p>
+          </div>
+
+          <button class="btn-secondary" id="btnContinueShopping" style="width: 100%;">Continue Exploration</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Auth Modal Overlay -->
+  <div class="modal-overlay" id="authOverlay">
+    <div class="checkout-modal" onclick="event.stopPropagation();" style="max-width: 400px; margin: auto;">
+      <button class="modal-close" id="btnCloseAuth"><i class="fa-solid fa-xmark"></i></button>
+      
+      <div id="authForms">
+        <div class="section-title" style="margin-bottom: 1.5rem;">
+          <h2 style="font-size: 1.75rem;" id="authTitle">Client Login</h2>
+          <p id="authSubtitle">Please login to continue your purchase</p>
+        </div>
+
+        <form id="loginForm">
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label>Email</label>
+            <input type="email" id="loginEmail" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 2px;">
+          </div>
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label>Password</label>
+            <div style="position: relative;">
+              <input type="password" id="loginPassword" required style="width: 100%; padding: 0.75rem; padding-right: 2.5rem; border: 1px solid var(--color-border); border-radius: 2px;">
+              <i class="fa-regular fa-eye" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--color-text-muted);" onclick="togglePassword('loginPassword', this)" title="Toggle Password Visibility"></i>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Login</button>
+          <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; cursor: pointer; color: var(--color-gold);" id="btnShowRegister">Need an account? Register here</p>
+        </form>
+
+        <form id="registerForm" style="display: none;">
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label>Full Name</label>
+            <input type="text" id="regName" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 2px;">
+          </div>
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label>Email</label>
+            <input type="email" id="regEmail" required style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 2px;">
+          </div>
+          <div class="form-group full-width" style="margin-bottom: 1rem;">
+            <label>Password</label>
+            <div style="position: relative;">
+              <input type="password" id="regPassword" required style="width: 100%; padding: 0.75rem; padding-right: 2.5rem; border: 1px solid var(--color-border); border-radius: 2px;">
+              <i class="fa-regular fa-eye" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: var(--color-text-muted);" onclick="togglePassword('regPassword', this)" title="Toggle Password Visibility"></i>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary" style="width: 100%;">Register</button>
+          <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; cursor: pointer; color: var(--color-gold);" id="btnShowLogin">Already have an account? Login here</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Wrapper -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Animation Engine -->
+  <script src="./js/animations.js"></script>
+  <!-- Frontend Client Core Script -->
+  <script src="./js/main.js"></script>
+</body>
+</html>
