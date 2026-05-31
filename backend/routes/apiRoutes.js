@@ -15,8 +15,11 @@ const Coupon = require('../models/Coupon');
 const Banner = require('../models/Banner');
 const Setting = require('../models/Setting');
 
-// Ensure uploads directory exists
-const uploadDir = path.join(__dirname, '../../backend/uploads');
+// Ensure uploads directory exists (use OS temp dir for serverless compatibility)
+const uploadDir = process.env.NODE_ENV === 'production' 
+  ? path.join(require('os').tmpdir(), 'uploads')
+  : path.join(__dirname, '../../backend/uploads');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }

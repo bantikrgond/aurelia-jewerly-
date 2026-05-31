@@ -56,7 +56,11 @@ app.get('/admin', (req, res) => {
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/premium_jewelry_store';
 
-mongoose.connect(MONGODB_URI)
+const mongooseOptions = {
+  serverSelectionTimeoutMS: 5000 // Fail fast if no MongoDB connection
+};
+
+mongoose.connect(MONGODB_URI, mongooseOptions)
   .then(async () => {
     console.log('✨ Connected to MongoDB Premium Jewelry Database');
     await seedDatabase();
