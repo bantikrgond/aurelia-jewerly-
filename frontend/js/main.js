@@ -195,7 +195,6 @@ function useFallbackData() {
       isBestSeller: false,
       description: 'A timeless, high-polished platinum band representing eternal commitment and purity.'
     },
-    {
       _id: 'prod_11',
       name: 'Art Deco Pearl Brooch',
       category: 'Chains',
@@ -205,6 +204,39 @@ function useFallbackData() {
       isNewArrival: true,
       isBestSeller: false,
       description: 'Vintage-inspired Art Deco brooch featuring a large South Sea pearl and geometric diamond patterns.'
+    },
+    {
+      _id: 'prod_12',
+      name: 'Ruby Royale Earrings',
+      category: 'Earrings',
+      price: 1950,
+      originalPrice: 2200,
+      image: '/images/ruby_royale_earrings.png',
+      isNewArrival: true,
+      isBestSeller: true,
+      description: 'Exquisite deep crimson rubies surrounded by a double halo of brilliant cut diamonds, set in 18k white gold.'
+    },
+    {
+      _id: 'prod_13',
+      name: 'Golden Heritage Kada',
+      category: 'Bracelets',
+      price: 2600,
+      originalPrice: 2950,
+      image: '/images/golden_heritage_kada.png',
+      isNewArrival: false,
+      isBestSeller: true,
+      description: 'A heavy, meticulously hand-carved traditional gold bangle showcasing detailed antique craftsmanship.'
+    },
+    {
+      _id: 'prod_14',
+      name: 'Princess Cut Diamond Choker',
+      category: 'Necklaces',
+      price: 7200,
+      originalPrice: 8000,
+      image: '/images/diamond_choker.png',
+      isNewArrival: true,
+      isBestSeller: true,
+      description: 'A stunning arrangement of princess-cut diamonds meticulously hand-set in a flexible platinum mesh choker layout.'
     }
   ];
 }

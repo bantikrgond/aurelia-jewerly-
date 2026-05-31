@@ -24,7 +24,10 @@ const generatedImages = {
   'luxury_gold_chain.png': path.join(__dirname, 'assets/luxury_gold_chain.png'),
   'luxury_placeholder.png': path.join(__dirname, 'assets/luxury_placeholder.png'),
   'sapphire_royal_ring.png': path.join(__dirname, 'assets/sapphire_royal_ring.png'),
-  'emerald_eternity_necklace.png': path.join(__dirname, 'assets/emerald_eternity_necklace.png')
+  'emerald_eternity_necklace.png': path.join(__dirname, 'assets/emerald_eternity_necklace.png'),
+  'ruby_royale_earrings.png': path.join(__dirname, 'assets/ruby_royale_earrings.png'),
+  'golden_heritage_kada.png': path.join(__dirname, 'assets/golden_heritage_kada.png'),
+  'diamond_choker.png': path.join(__dirname, 'assets/diamond_choker.png')
 };
 
 app.get('/images/:imgName', (req, res) => {
@@ -317,6 +320,42 @@ async function seedDatabase() {
           rating: 4.7,
           reviewsCount: 6,
           description: 'Vintage-inspired Art Deco brooch featuring a large South Sea pearl and geometric diamond patterns.'
+        },
+        {
+          name: 'Ruby Royale Earrings',
+          category: 'Earrings',
+          price: 1950,
+          originalPrice: 2200,
+          image: '/images/ruby_royale_earrings.png',
+          isNewArrival: true,
+          isBestSeller: true,
+          rating: 4.9,
+          reviewsCount: 18,
+          description: 'Exquisite deep crimson rubies surrounded by a double halo of brilliant cut diamonds, set in 18k white gold.'
+        },
+        {
+          name: 'Golden Heritage Kada',
+          category: 'Bracelets',
+          price: 2600,
+          originalPrice: 2950,
+          image: '/images/golden_heritage_kada.png',
+          isNewArrival: false,
+          isBestSeller: true,
+          rating: 5.0,
+          reviewsCount: 31,
+          description: 'A heavy, meticulously hand-carved traditional gold bangle showcasing detailed antique craftsmanship.'
+        },
+        {
+          name: 'Princess Cut Diamond Choker',
+          category: 'Necklaces',
+          price: 7200,
+          originalPrice: 8000,
+          image: '/images/diamond_choker.png',
+          isNewArrival: true,
+          isBestSeller: true,
+          rating: 5.0,
+          reviewsCount: 14,
+          description: 'A stunning arrangement of princess-cut diamonds meticulously hand-set in a flexible platinum mesh choker layout.'
         }
       ];
       await Product.insertMany(productsData);
