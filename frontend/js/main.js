@@ -195,6 +195,7 @@ function useFallbackData() {
       isBestSeller: false,
       description: 'A timeless, high-polished platinum band representing eternal commitment and purity.'
     },
+    {
       _id: 'prod_11',
       name: 'Art Deco Pearl Brooch',
       category: 'Chains',
