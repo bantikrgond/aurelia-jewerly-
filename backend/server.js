@@ -60,9 +60,11 @@ mongoose.connect(MONGODB_URI)
   .then(async () => {
     console.log('✨ Connected to MongoDB Premium Jewelry Database');
     await seedDatabase();
-    app.listen(PORT, () => {
-      console.log(`💎 Premium Jewelry eCommerce Server alive on http://localhost:${PORT}`);
-    });
+    if (process.env.NODE_ENV !== 'production') {
+      app.listen(PORT, () => {
+        console.log(`💎 Premium Jewelry eCommerce Server alive on http://localhost:${PORT}`);
+      });
+    }
   })
   .catch(err => {
     console.error('❌ MongoDB Connection Error:', err);
@@ -334,3 +336,5 @@ async function seedDatabase() {
     console.error('❌ Database Seeding Error:', err);
   }
 }
+
+module.exports = app;
