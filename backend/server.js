@@ -27,7 +27,9 @@ const generatedImages = {
   'emerald_eternity_necklace.png': path.join(__dirname, 'assets/emerald_eternity_necklace.png'),
   'ruby_royale_earrings.png': path.join(__dirname, 'assets/ruby_royale_earrings.png'),
   'golden_heritage_kada.png': path.join(__dirname, 'assets/golden_heritage_kada.png'),
-  'diamond_choker.png': path.join(__dirname, 'assets/diamond_choker.png')
+  'diamond_choker.png': path.join(__dirname, 'assets/diamond_choker.png'),
+  'solitaire_diamond_studs.png': path.join(__dirname, 'assets/solitaire_diamond_studs.png'),
+  'emerald_cut_ring.png': path.join(__dirname, 'assets/emerald_cut_ring.png')
 };
 
 app.get('/images/:imgName', (req, res) => {
@@ -356,6 +358,30 @@ async function seedDatabase() {
           rating: 5.0,
           reviewsCount: 14,
           description: 'A stunning arrangement of princess-cut diamonds meticulously hand-set in a flexible platinum mesh choker layout.'
+        },
+        {
+          name: 'Solitaire Diamond Studs',
+          category: 'Earrings',
+          price: 1500,
+          originalPrice: 1750,
+          image: '/images/solitaire_diamond_studs.png',
+          isNewArrival: true,
+          isBestSeller: false,
+          rating: 4.9,
+          reviewsCount: 22,
+          description: 'Flawless round brilliant-cut diamonds held in a classic four-prong platinum setting, displaying unmatched fire and brilliance.'
+        },
+        {
+          name: 'Emerald Cut Diamond Ring',
+          category: 'Rings',
+          price: 4200,
+          originalPrice: 4800,
+          image: '/images/emerald_cut_ring.png',
+          isNewArrival: true,
+          isBestSeller: true,
+          rating: 5.0,
+          reviewsCount: 9,
+          description: 'A stunning emerald-cut solitaire diamond set in a minimalist 18k yellow gold band with hidden micro-pave diamonds.'
         }
       ];
       await Product.insertMany(productsData);

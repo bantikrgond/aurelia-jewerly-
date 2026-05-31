@@ -238,6 +238,28 @@ function useFallbackData() {
       isNewArrival: true,
       isBestSeller: true,
       description: 'A stunning arrangement of princess-cut diamonds meticulously hand-set in a flexible platinum mesh choker layout.'
+    },
+    {
+      _id: 'prod_15',
+      name: 'Solitaire Diamond Studs',
+      category: 'Earrings',
+      price: 1500,
+      originalPrice: 1750,
+      image: '/images/solitaire_diamond_studs.png',
+      isNewArrival: true,
+      isBestSeller: false,
+      description: 'Flawless round brilliant-cut diamonds held in a classic four-prong platinum setting, displaying unmatched fire and brilliance.'
+    },
+    {
+      _id: 'prod_16',
+      name: 'Emerald Cut Diamond Ring',
+      category: 'Rings',
+      price: 4200,
+      originalPrice: 4800,
+      image: '/images/emerald_cut_ring.png',
+      isNewArrival: true,
+      isBestSeller: true,
+      description: 'A stunning emerald-cut solitaire diamond set in a minimalist 18k yellow gold band with hidden micro-pave diamonds.'
     }
   ];
 }
