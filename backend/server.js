@@ -17,10 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve custom generated jewelry images cleanly via absolute endpoints
 const generatedImages = {
-  'luxury_gold_necklace.png': 'C:\\Users\\prasa\\.gemini\\antigravity\\brain\\bde2bf17-993e-4ebd-b386-f3a0a71e25cb\\luxury_gold_necklace_1778772902827.png',
-  'luxury_diamond_ring.png': 'C:\\Users\\prasa\\.gemini\\antigravity\\brain\\bde2bf17-993e-4ebd-b386-f3a0a71e25cb\\luxury_diamond_ring_1778772923260.png',
-  'luxury_gold_earrings.png': 'C:\\Users\\prasa\\.gemini\\antigravity\\brain\\bde2bf17-993e-4ebd-b386-f3a0a71e25cb\\luxury_gold_earrings_1778772945872.png',
-  'luxury_gold_bracelet.png': 'C:\\Users\\prasa\\.gemini\\antigravity\\brain\\bde2bf17-993e-4ebd-b386-f3a0a71e25cb\\luxury_gold_bracelet_1778772970264.png',
+  'luxury_gold_necklace.png': path.join(__dirname, 'assets/luxury_gold_necklace.png'),
+  'luxury_diamond_ring.png': path.join(__dirname, 'assets/luxury_diamond_ring.png'),
+  'luxury_gold_earrings.png': path.join(__dirname, 'assets/luxury_gold_earrings.png'),
+  'luxury_gold_bracelet.png': path.join(__dirname, 'assets/luxury_gold_bracelet.png'),
   'luxury_gold_chain.png': path.join(__dirname, 'assets/luxury_gold_chain.png'),
   'luxury_placeholder.png': path.join(__dirname, 'assets/luxury_placeholder.png'),
   'sapphire_royal_ring.png': path.join(__dirname, 'assets/sapphire_royal_ring.png'),
@@ -60,19 +60,36 @@ const mongooseOptions = {
   serverSelectionTimeoutMS: 5000 // Fail fast if no MongoDB connection
 };
 
-mongoose.connect(MONGODB_URI, mongooseOptions)
-  .then(async () => {
-    console.log('✨ Connected to MongoDB Premium Jewelry Database');
-    await seedDatabase();
-    if (process.env.NODE_ENV !== 'production') {
-      app.listen(PORT, () => {
-        console.log(`💎 Premium Jewelry eCommerce Server alive on http://localhost:${PORT}`);
-      });
-    }
-  })
-  .catch(err => {
-    console.error('❌ MongoDB Connection Error:', err);
-  });
+const startServer = () => {
+  if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+      console.log(`💎 Premium Jewelry eCommerce Server alive on http://localhost:${PORT}`);
+    });
+  }
+};
+
+const connectWithFallback = (uri) => {
+  mongoose.connect(uri, mongooseOptions)
+    .then(async () => {
+      console.log('✨ Connected to MongoDB Premium Jewelry Database');
+      await seedDatabase();
+      startServer();
+    })
+    .catch(async (err) => {
+      console.error(`❌ MongoDB Connection Error for URI:`, err.message || err);
+      const localUri = 'mongodb://127.0.0.1:27017/premium_jewelry_store';
+      if (uri !== localUri) {
+        console.log(`🔌 Attempting fallback to local MongoDB: ${localUri}`);
+        connectWithFallback(localUri);
+      } else {
+        console.error('❌ Both remote and local MongoDB connections failed.');
+        console.log('⚠️ Starting server anyway on Port ' + PORT + ' for static assets serving.');
+        startServer();
+      }
+    });
+};
+
+connectWithFallback(MONGODB_URI);
 
 // ==========================================
 // AUTOMATIC LUXURY DATABASE SEEDING

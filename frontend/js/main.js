@@ -9,7 +9,9 @@ let appliedCouponDiscount = 0;
 let customerToken = localStorage.getItem('aurelia_customer_token') || null;
 
 // Base API URI
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:5000/api'
+  : '/api';
 
 // DOM Setup
 document.addEventListener('DOMContentLoaded', async () => {
