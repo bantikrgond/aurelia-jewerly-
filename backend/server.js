@@ -29,7 +29,9 @@ const generatedImages = {
   'golden_heritage_kada.png': path.join(__dirname, 'assets/golden_heritage_kada.png'),
   'diamond_choker.png': path.join(__dirname, 'assets/diamond_choker.png'),
   'solitaire_diamond_studs.png': path.join(__dirname, 'assets/solitaire_diamond_studs.png'),
-  'emerald_cut_ring.png': path.join(__dirname, 'assets/emerald_cut_ring.png')
+  'emerald_cut_ring.png': path.join(__dirname, 'assets/emerald_cut_ring.png'),
+  'platinum_wedding_band.png': path.join(__dirname, 'assets/platinum_wedding_band.png'),
+  'art_deco_pearl_brooch.png': path.join(__dirname, 'assets/art_deco_pearl_brooch.png')
 };
 
 app.get('/images/:imgName', (req, res) => {
@@ -304,7 +306,7 @@ async function seedDatabase() {
           category: 'Rings',
           price: 1200,
           originalPrice: 1500,
-          image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80',
+          image: '/images/platinum_wedding_band.png',
           isNewArrival: false,
           isBestSeller: false,
           rating: 5.0,
@@ -316,7 +318,7 @@ async function seedDatabase() {
           category: 'Chains',
           price: 1650,
           originalPrice: 1950,
-          image: 'https://images.unsplash.com/photo-1535633302723-997f858d4d6e?auto=format&fit=crop&w=800&q=80',
+          image: '/images/art_deco_pearl_brooch.png',
           isNewArrival: true,
           isBestSeller: false,
           rating: 4.7,

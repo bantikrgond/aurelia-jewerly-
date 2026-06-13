@@ -976,23 +976,42 @@ function printDirectOrderInvoice(orderId) {
 
 function printInvoice() {
   const printContent = document.getElementById('orderDetailPrintableArea').innerHTML;
-  const originalContent = document.body.innerHTML;
-
-  // Render minimal beautiful printable layout inline
-  document.body.innerHTML = `
-    <div style="padding: 40px; font-family: sans-serif; max-width: 800px; margin: 0 auto; color: #000; background: #fff;">
-      ${printContent}
-      <div style="margin-top: 60px; text-align: center; border-top: 1px solid #ccc; padding-top: 20px; font-size: 12px; color: #666;">
-        <p>AURELIA Fine Atelier Dispatch Certification. Guaranteed Insured Authenticity.</p>
-      </div>
-    </div>
-  `;
-
-  window.print();
-  
-  // Revert back immediately to state layout
-  document.body.innerHTML = originalContent;
-  window.location.reload(); // Restores client state flawlessly
+  const printWindow = window.open('', '_blank', 'width=800,height=600');
+  if (!printWindow) {
+    alert('Popup blocker prevented invoice printing. Please allow popups for this site.');
+    return;
+  }
+  printWindow.document.write(`
+    <html>
+      <head>
+        <title>AURELIA Fine Atelier Dispatch Certification</title>
+        <style>
+          body { padding: 40px; font-family: sans-serif; color: #000; background: #fff; }
+          h2 { font-size: 1.5rem; letter-spacing: 0.1em; margin: 0; }
+          p { margin: 5px 0; }
+          .status-badge { display: inline-block; padding: 0.25rem 0.5rem; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; }
+          .status-delivered { color: #2E7D32; background: #E8F5E9; }
+          .status-shipped { color: #0288D1; background: #E1F5FE; }
+          .status-pending { color: #EF6C00; background: #FFF3E0; }
+          table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+          th, td { text-align: left; padding: 10px; border-bottom: 1px solid #eee; }
+        </style>
+      </head>
+      <body>
+        ${printContent}
+        <div style="margin-top: 60px; text-align: center; border-top: 1px solid #ccc; padding-top: 20px; font-size: 12px; color: #666;">
+          <p>AURELIA Fine Atelier Dispatch Certification. Guaranteed Insured Authenticity.</p>
+        </div>
+        <script>
+          window.onload = function() {
+            window.print();
+            window.close();
+          };
+        </script>
+      </body>
+    </html>
+  `);
+  printWindow.document.close();
 }
 
 // ==========================================

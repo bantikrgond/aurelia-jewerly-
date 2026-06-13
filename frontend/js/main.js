@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Render initial counters
   updateCartUI();
   updateWishlistBadge();
+  updateWishlistUI();
+  checkCustomerAuth();
 });
 
 // ==========================================
@@ -190,7 +192,7 @@ function useFallbackData() {
       category: 'Rings',
       price: 1200,
       originalPrice: 1500,
-      image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=80',
+      image: '/images/platinum_wedding_band.png',
       isNewArrival: false,
       isBestSeller: false,
       description: 'A timeless, high-polished platinum band representing eternal commitment and purity.'
@@ -201,7 +203,7 @@ function useFallbackData() {
       category: 'Chains',
       price: 1650,
       originalPrice: 1950,
-      image: 'https://images.unsplash.com/photo-1535633302723-997f858d4d6e?auto=format&fit=crop&w=800&q=80',
+      image: '/images/art_deco_pearl_brooch.png',
       isNewArrival: true,
       isBestSeller: false,
       description: 'Vintage-inspired Art Deco brooch featuring a large South Sea pearl and geometric diamond patterns.'
@@ -346,15 +348,20 @@ function toggleWishlist(productId, event) {
 
   localStorage.setItem('aurelia_wishlist', JSON.stringify(wishlistItems));
   updateWishlistBadge();
+  updateWishlistUI();
 
   // Highlight active button immediately
   const btn = event.currentTarget;
-  btn.classList.toggle('active');
-  const icon = btn.querySelector('i');
-  if (btn.classList.contains('active')) {
-    icon.className = 'fa-solid fa-heart';
-  } else {
-    icon.className = 'fa-regular fa-heart';
+  if (btn) {
+    btn.classList.toggle('active');
+    const icon = btn.querySelector('i');
+    if (icon) {
+      if (btn.classList.contains('active')) {
+        icon.className = 'fa-solid fa-heart';
+      } else {
+        icon.className = 'fa-regular fa-heart';
+      }
+    }
   }
 }
 
@@ -362,6 +369,88 @@ function updateWishlistBadge() {
   const badge = document.getElementById('wishlistCountBadge');
   if (badge) {
     badge.innerText = wishlistItems.length;
+  }
+}
+
+function updateWishlistUI() {
+  const badge = document.getElementById('wishlistCountBadge');
+  const drawerCount = document.getElementById('wishlistDrawerItemCount');
+  if (badge) badge.innerText = wishlistItems.length;
+  if (drawerCount) drawerCount.innerText = wishlistItems.length;
+
+  const body = document.getElementById('wishlistDrawerBody');
+  if (!body) return;
+
+  if (wishlistItems.length === 0) {
+    body.innerHTML = `
+      <div class="cart-empty">
+        <i class="fa-regular fa-heart"></i>
+        <p>Your wishlist is currently empty.</p>
+      </div>
+    `;
+    return;
+  }
+
+  body.innerHTML = '';
+  wishlistItems.forEach(id => {
+    const product = productsCatalog.find(p => p._id === id);
+    if (!product) return;
+
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <img src="${product.image}" class="cart-item-img" alt="${product.name}" onerror="this.onerror=null; this.src='/images/luxury_placeholder.png';">
+      <div class="cart-item-info">
+        <div class="cart-item-title">${product.name}</div>
+        <div class="cart-item-price">$${product.price}</div>
+        <div class="cart-item-actions" style="margin-top: 0.5rem; display: flex; gap: 1rem; align-items: center;">
+          <button class="btn-add-cart" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="addToCartFromWishlist('${product._id}')">Add to Cart</button>
+          <button class="cart-item-remove" style="font-size: 0.75rem;" onclick="removeFromWishlistDirect('${product._id}')">Remove</button>
+        </div>
+      </div>
+    `;
+    body.appendChild(div);
+  });
+}
+
+function addToCartFromWishlist(productId) {
+  addToCart(productId);
+  document.getElementById('wishlistDrawer').classList.remove('active');
+}
+
+function removeFromWishlistDirect(productId) {
+  const index = wishlistItems.indexOf(productId);
+  if (index !== -1) {
+    wishlistItems.splice(index, 1);
+    localStorage.setItem('aurelia_wishlist', JSON.stringify(wishlistItems));
+    updateWishlistBadge();
+    updateWishlistUI();
+    renderProductsGrid(document.querySelector('#productFilterTabs .filter-tab.active')?.dataset.filter || 'All');
+    showToast('Removed piece from personal Wishlist.');
+  }
+}
+
+function decodeJWT(token) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
+
+function checkCustomerAuth() {
+  const btnOpenAuthNav = document.getElementById('btnOpenAuth');
+  if (!btnOpenAuthNav) return;
+
+  if (customerToken && customerToken !== 'null' && customerToken !== 'undefined') {
+    btnOpenAuthNav.style.color = 'var(--color-gold)';
+  } else {
+    btnOpenAuthNav.style.color = '';
   }
 }
 
@@ -469,13 +558,13 @@ function updateCartUI() {
 // MODAL & POPUP LOGIC CONTROLS
 // ==========================================
 function setupDrawersAndModals() {
-  // Open wish triggers summary alert
+  // Wishlist drawer open/close triggers
   document.getElementById('btnOpenWishlist').addEventListener('click', () => {
-    if (wishlistItems.length === 0) {
-      showToast('Your Wishlist archive is currently empty.');
-    } else {
-      showToast(`⚜️ You currently hold ${wishlistItems.length} curated pieces archived.`);
-    }
+    updateWishlistUI();
+    document.getElementById('wishlistDrawer').classList.add('active');
+  });
+  document.getElementById('btnCloseWishlistDrawer').addEventListener('click', () => {
+    document.getElementById('wishlistDrawer').classList.remove('active');
   });
 
   // Cart open / close triggers
@@ -491,33 +580,65 @@ function setupDrawersAndModals() {
   if (btnOpenAuthNav) {
     btnOpenAuthNav.addEventListener('click', () => {
       if (customerToken && customerToken !== 'null' && customerToken !== 'undefined') {
-        showToast('You are already authenticated. Welcome to your Vault.');
+        // Authenticated. Show Profile Panel.
+        const payload = decodeJWT(customerToken);
+        const name = payload?.name || 'Valued Client';
+        const email = payload?.email || 'client@domain.com';
+
+        document.getElementById('profileName').innerText = name;
+        document.getElementById('profileEmail').innerText = email;
+        document.getElementById('profileAvatar').innerText = name.charAt(0).toUpperCase();
+
+        document.getElementById('authTitle').innerText = 'Client Vault';
+        document.getElementById('authSubtitle').innerText = 'Your Authorized Atelier Session';
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'block';
+
+        document.getElementById('cartDrawer').classList.remove('active');
+        document.getElementById('authOverlay').classList.add('active');
       } else {
+        // Not authenticated. Show Login form.
         document.getElementById('authTitle').innerText = 'Client Login';
         document.getElementById('authSubtitle').innerText = 'Please login to access your Vault';
-        document.getElementById('registerForm').style.display = 'none';
         document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+        document.getElementById('profilePanel').style.display = 'none';
+
         document.getElementById('cartDrawer').classList.remove('active');
         document.getElementById('authOverlay').classList.add('active');
       }
     });
   }
 
+  // Logout trigger
+  document.getElementById('btnProfileLogout').addEventListener('click', () => {
+    customerToken = null;
+    localStorage.removeItem('aurelia_customer_token');
+    checkCustomerAuth();
+    document.getElementById('authOverlay').classList.remove('active');
+    showToast('Secure session terminated. Goodbye.');
+  });
+
   // Auth Modals logic
   document.getElementById('btnCloseAuth').addEventListener('click', () => {
     document.getElementById('authOverlay').classList.remove('active');
   });
-  document.getElementById('authOverlay').addEventListener('click', () => {
-    document.getElementById('authOverlay').classList.remove('active');
+  document.getElementById('authOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('authOverlay')) {
+      document.getElementById('authOverlay').classList.remove('active');
+    }
   });
   document.getElementById('btnShowRegister').addEventListener('click', () => {
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('registerForm').style.display = 'block';
+    document.getElementById('profilePanel').style.display = 'none';
     document.getElementById('authTitle').innerText = 'Client Registration';
     document.getElementById('authSubtitle').innerText = 'Please register to create your account';
   });
   document.getElementById('btnShowLogin').addEventListener('click', () => {
     document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('profilePanel').style.display = 'none';
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('authTitle').innerText = 'Client Login';
     document.getElementById('authSubtitle').innerText = 'Please login to continue your purchase';
@@ -539,6 +660,7 @@ function setupDrawersAndModals() {
       if (data.success) {
         customerToken = data.token;
         localStorage.setItem('aurelia_customer_token', customerToken);
+        checkCustomerAuth();
         document.getElementById('authOverlay').classList.remove('active');
         showToast('Successfully authenticated. Welcome back.');
         
@@ -572,6 +694,7 @@ function setupDrawersAndModals() {
       if (data.success) {
         customerToken = data.token;
         localStorage.setItem('aurelia_customer_token', customerToken);
+        checkCustomerAuth();
         document.getElementById('authOverlay').classList.remove('active');
         showToast('Registration successful. Welcome to Aurelia.');
         
